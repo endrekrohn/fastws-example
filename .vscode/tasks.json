@@ -1,0 +1,25 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run API",
+            "type": "shell",
+            "icon": {
+                "id": "run",
+                "color": "terminal.ansiBlue"
+            },
+            "command": "(poetry run uvicorn api.main:app --log-level debug --ws-max-size 4096 --ws-ping-interval 300 --ws-ping-timeout 300 --host 0.0.0.0 --port 8000 --reload)",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}
