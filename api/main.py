@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from typing import Annotated
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Query
 from fastws import Client, Message
 
 from api.service import service
@@ -17,14 +17,18 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.websocket("/")
-async def fastws_stream(client: Annotated[Client, Depends(service.manage)]):
+async def fastws_stream(
+    client: Annotated[Client, Depends(service.manage)],
+    topics: list[str] = Query([], alias="topic"),
+):
+    for t in topics:
+        client.subscribe(t)
     await service.serve(client)
 
 
-@app.post("/{topic}", tags=["Alert"])
-async def alert_on_topic(topic: str, message: str):
+@app.post("/{to_topic}")
+async def fastws_alert(to_topic: str):
     await service.server_send(
-        Message(type="feature_2.alert", payload={"message": message}),
-        topic=topic,
+        Message(type="feature_2.alert", payload={"message": "foobar"}),
+        topic=to_topic,
     )
-    return "ok"

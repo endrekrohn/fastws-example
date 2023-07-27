@@ -2,7 +2,7 @@ import logging
 from fastws import Client, OperationRouter, FastWS
 from pydantic import BaseModel
 
-router = OperationRouter(prefix="feature_1.")
+router = OperationRouter(prefix="feature_0.")
 
 
 class SubscriptionPayload(BaseModel):
@@ -14,7 +14,7 @@ class SubscriptionResponse(BaseModel):
     topics: set[str]
 
 
-@router.send("subscribe")
+@router.send("subscribe", reply="subscribe.response")
 async def subscribe_to_topic(
     payload: SubscriptionPayload,
     client: Client,
@@ -30,7 +30,7 @@ async def subscribe_to_topic(
     )
 
 
-@router.send("unsubscribe")
+@router.send("unsubscribe", reply="unsubscribe.response")
 async def unsubscribe_from_topic(
     payload: SubscriptionPayload,
     client: Client,

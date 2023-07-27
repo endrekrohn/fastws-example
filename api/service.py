@@ -9,3 +9,8 @@ service = FastWS(title="FastWS - Broker")
 service.include_router(subscribe.router)
 service.include_router(ping.router)
 service.include_router(alert.router)
+
+
+@service.send("ping", reply="pong")
+def application_ping():
+    ...

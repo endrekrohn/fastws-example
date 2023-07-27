@@ -1,8 +1,8 @@
 from fastws import OperationRouter
 
-router = OperationRouter(prefix="feature_0.")
+router = OperationRouter(prefix="feature_1.")
 
 
-@router.send("ping")
-async def send_ping() -> str:
-    return "pong"
+@router.send("ping", reply="pong")
+async def send_ping():
+    return
